@@ -39,4 +39,3 @@ const WelcomeBot = require('slack-welcome-bot');
 
 app.use('/slack-inbound', WelcomeBot(require('./config.js')))
 ```
-[]: https://api.slack.com/apps/
