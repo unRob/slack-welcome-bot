@@ -1,70 +1,88 @@
-const http = require('http')
-const https = require('https')
-const { parse } = require('url')
+'use strict';
 
-const fetchBody = function(req, callback) {
-  let body = '';
-  req.on('data', chunk => body += chunk)
-  req.on('end', function () { callback(JSON.parse(body)) })
-}
+var http = require('http');
+var https = require('https');
 
-const Slack = {
-  outbound(url, message) {
-    const { hostname, port, pathname: path } = parse(url)
-    const body = JSON.stringify(message)
+var _require = require('url');
 
-    const req = https.request({
-      hostname,
-      port,
-      path,
+var parse = _require.parse;
+
+
+var fetchBody = function fetchBody(req, callback) {
+  var body = '';
+  req.on('data', function (chunk) {
+    return body += chunk;
+  });
+  req.on('end', function () {
+    callback(JSON.parse(body));
+  });
+};
+
+var Slack = {
+  outbound: function outbound(url, message) {
+    var _parse = parse(url);
+
+    var hostname = _parse.hostname;
+    var port = _parse.port;
+    var path = _parse.pathname;
+
+    var body = JSON.stringify(message);
+
+    var req = https.request({
+      hostname: hostname,
+      port: port,
+      path: path,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(body)
       }
-    })
+    });
 
-    req.write(body)
-    req.end()
-    return req
+    req.write(body);
+    req.end();
+    return req;
   }
-}
+};
 
-const createServer = config => http.createServer(function (req, res) {
-  try {
-    fetchBody(req, function(data) {
-      switch (data.type) {
-        case 'url_verification':
-          if (data.token !== config.token) {
-            res.statusCode = 401
-            return res.end()
-          }
-          break
-        case 'team_join':
-          const { outbound, template } = config
-          message = template(data.event)
-          // console.log(message)
-          Slack.outbound(outbound, message)
-          return res.end('ok')
-          break
-      }
-    })
-  } catch (err) {
-    console.err(err)
-    res.statusCode = 500
-    res.end()
-  }
+var createServer = function createServer(config) {
+  return http.createServer(function (req, res) {
+    try {
+      fetchBody(req, function (data) {
+        switch (data.type) {
+          case 'url_verification':
+            if (data.token !== config.token) {
+              res.statusCode = 401;
+              return res.end();
+            }
+            break;
+          case 'team_join':
+            var outbound = config.outbound;
+            var template = config.template;
 
-})
+            message = template(data.event);
+            // console.log(message)
+            Slack.outbound(outbound, message);
+            return res.end('ok');
+            break;
+        }
+      });
+    } catch (err) {
+      console.err(err);
+      res.statusCode = 500;
+      res.end();
+    }
+  });
+};
 
 if (!module.parent) {
-  console.log('Reading config from '+process.argv[2])
+  console.log('Reading config from ' + process.argv[2]);
 
-  const path = require('path')
-  const config = require(path.resolve(process.env.PWD, process.argv[2]))
-  createServer(config).listen(process.env.SLACK_PORT || 3000, function() {
-    console.log('Listening...')
-  })
+  var path = require('path');
+  var config = require(path.resolve(process.env.PWD, process.argv[2]));
+  createServer(config).listen(process.env.SLACK_PORT || 3000, function () {
+    console.log('Listening...');
+  });
 }
 
-module.exports = createServer
+module.exports = createServer;

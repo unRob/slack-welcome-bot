@@ -1,11 +1,21 @@
 {
   "name": "slack-welcome-bot",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Güelcome, como el tapete",
   "main": "index.js",
   "scripts": {
     "test": "tape test.js",
-    "start": "node index.js ./config.js"
+    "start": "node index.js ./config.js",
+    "build": "babel src/index.js -o index.js",
+    "prepublish": "npm run build"
+  },
+  "bin":{
+    "welcome-bot": "node index.js --"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,6 +33,7 @@
   "homepage": "https://github.com/unRob/slack-welcome-bot#readme",
   "dependencies": {},
   "devDependencies": {
+    "babel-preset-es2015": "^6.13.2",
     "tape": "^4.6.0"
   }
 }
