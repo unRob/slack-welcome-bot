@@ -1,6 +1,6 @@
 {
   "name": "slack-welcome-bot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Güelcome, como el tapete",
   "main": "index.js",
   "scripts": {

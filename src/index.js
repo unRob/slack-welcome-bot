@@ -42,9 +42,7 @@ const createServer = config => http.createServer(function (req, res) {
           break
         case 'team_join':
           const { outbound, template } = config
-          message = template(data.event)
-          // console.log(message)
-          Slack.outbound(outbound, message)
+          Slack.outbound(outbound, template(data.event))
           return res.end('ok')
           break
       }
