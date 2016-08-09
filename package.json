@@ -1,6 +1,6 @@
 {
   "name": "slack-welcome-bot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Güelcome, como el tapete",
   "main": "index.js",
   "scripts": {
@@ -8,9 +8,6 @@
     "start": "node index.js ./config.js",
     "build": "babel src/index.js -o index.js",
     "prepublish": "npm run build"
-  },
-  "bin":{
-    "welcome-bot": "node index.js --"
   },
   "babel": {
     "presets": [
