@@ -1,0 +1,28 @@
+{
+  "name": "slack-welcome-bot",
+  "version": "0.0.1",
+  "description": "Güelcome, como el tapete",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js",
+    "start": "node index.js ./config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unRob/slack-welcome-bot.git"
+  },
+  "keywords": [
+    "slack",
+    "welcome"
+  ],
+  "author": "Roberto Hidalgo <un@rob.mx>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/unRob/slack-welcome-bot/issues"
+  },
+  "homepage": "https://github.com/unRob/slack-welcome-bot#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "^4.6.0"
+  }
+}
