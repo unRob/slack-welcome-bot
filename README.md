@@ -23,7 +23,8 @@ module.exports = {
 
 ### Setup
 
-[[https://github.com/unRob/slack-welcome-bot/blob/master/slack-setup.png]]
+![By setting up your event subscriptions in slack](https://github.com/unRob/slack-welcome-bot/raw/master/slack-setup.png)
+
 
 ### CLI
 
@@ -38,3 +39,4 @@ const WelcomeBot = require('slack-welcome-bot');
 
 app.use('/slack-inbound', WelcomeBot(require('./config.js')))
 ```
+[]: https://api.slack.com/apps/
